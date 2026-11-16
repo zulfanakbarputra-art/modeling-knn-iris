@@ -11,16 +11,46 @@ let k, jumlah_train, jumlah_test, data_min, data_max, x_train, y_train
 
 async function muatModel() {
     try {
-        const respon = await fetch("model_knn.json", { cache: "no-cache" })
-        dataModel = await respon.json()
-        
-        ({ k, jumlah_train, jumlah_test, data_min, data_max, x_train, y_train } = dataModel)
-        
-        tampilkanInfoModel()
+        const respon = await fetch("./model_knn.json", {
+            cache: "no-store"
+        });
+
+        if (!respon.ok) {
+            throw new Error(`HTTP Error: ${respon.status}`);
+        }
+
+        const model = await respon.json();
+
+        // Periksa apakah data JSON berhasil dibaca
+        console.log("Data model berhasil dibaca:", model);
+
+        if (!model || typeof model !== "object") {
+            throw new Error("Isi model JSON bukan objek yang valid");
+        }
+
+        dataModel = model;
+
+        ({
+            k,
+            jumlah_train,
+            jumlah_test,
+            data_min,
+            data_max,
+            x_train,
+            y_train
+        } = dataModel);
+
+        tampilkanInfoModel();
+
+        console.log("Model KNN berhasil dimuat!");
+
     } catch (error) {
-        teksKeterangan.textContent = "File model_knn.json tidak ditemukan atau gagal dimuat";
+        teksKeterangan.textContent =
+            "Model KNN gagal dimuat. Periksa Console.";
+
         teksKeterangan.classList.add("error");
-        console.error(error);
+
+        console.error("Kesalahan memuat model:", error);
     }
 }
 
