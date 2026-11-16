@@ -11,7 +11,7 @@ let k, jumlah_train, jumlah_test, data_min, data_max, x_train, y_train
 
 async function muatModel() {
     try {
-        const respon = await fetch("./model_knn.json", {
+        const respon = await fetch("model_knn.json", {
             cache: "no-store"
         });
 
