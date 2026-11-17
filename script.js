@@ -21,7 +21,6 @@ async function muatModel() {
 
         const model = await respon.json();
 
-        // Periksa apakah data JSON berhasil dibaca
         console.log("Data model berhasil dibaca:", model);
 
         if (!model || typeof model !== "object") {
